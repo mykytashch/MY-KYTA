@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Panel {{ panel.unique_url }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f8f8;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            background-color: #333;
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 36px;
+            margin: 0;
+        }
+
+        .header a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .panel-info {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            margin-top: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .panel-info h2 {
+            font-size: 24px;
+            margin: 0;
+        }
+
+        .panel-info p {
+            font-size: 16px;
+            margin: 10px 0;
+        }
+
+        .panel-info .json-data {
+            display: none;
+        }
+
+        .panel-info button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        /* Add additional styles as needed for your design */
+
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Panel {{ panel.unique_url }}</h1>
+        <a href="{{ url_for('dashboard') }}">Back to Dashboard</a>
+    </div>
+
+    <div class="container">
+        <p>Send POST requests to: {{ request.host_url }}api/post/{{ panel.unique_url }}</p>
+
+        <h2>Received POST Data:</h2>
+        {% for post_request in post_requests %}
+        <div class="panel-info">
+            <h2>Request {{ post_request.id }}</h2>
+            <p>Received at: {{ post_request.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+            {% for field, label in field_labels.items() %}
+                {% if post_request.data and post_request.data[field] %}
+                    <p>{{ label }}: {{ post_request.data[field] }}</p>
+                {% endif %}
+            {% endfor %}
+            <button onclick="toggleJSON(this)">Toggle JSON</button>
+            <div class="json-data">
+                <pre>{{ post_request.data|tojson(indent=4)|safe }}</pre>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <script>
+        function toggleJSON(button) {
+            var jsonData = button.nextElementSibling;
+            if (jsonData.style.display === "none" || jsonData.style.display === "") {
+                jsonData.style.display = "block";
+            } else {
+                jsonData.style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>

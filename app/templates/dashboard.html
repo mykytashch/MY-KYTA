@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - My Kyta</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f8f8;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 36px;
+            margin: 0;
+        }
+
+        header p {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+
+        nav {
+            background-color: #444;
+            padding: 10px 0;
+        }
+
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        nav li {
+            display: inline;
+            margin: 0 15px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #fff;
+            font-size: 16px;
+        }
+
+        main {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .panel-card {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .panel-card h3 {
+            font-size: 24px;
+            margin: 0;
+        }
+
+        .panel-card p {
+            font-size: 16px;
+            margin: 10px 0;
+        }
+
+        .panel-card .panel-actions {
+            margin-top: 10px;
+        }
+
+        .panel-actions a {
+            text-decoration: none;
+            margin-right: 10px;
+            color: #007bff;
+        }
+
+        /* Add additional styles as needed for your design */
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1>My Kyta</h1>
+        <p>Keep Your Toolset Advancing</p>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/about">About</a></li>
+            <li><a href="/services">Services</a></li>
+            <li><a href="/contact">Contact</a></li>
+        </ul>
+    </nav>
+    <main>
+        <h2>Welcome, {{ user.username }}</h2>
+        <p>Your current balance: {{ user.balance }} €</p>
+        <!-- Добавляем кнопку "Пополнить счет" с ссылкой на страницу пополнения -->
+        <a href="{{ url_for('recharge') }}" class="recharge-button">Пополнить счет</a>
+        <h3>Your Panels:</h3>
+        {% for panel in panels %}
+        <div class="panel-card">
+            <h3>Panel ID: {{ panel.id }}</h3>
+            <p>Expires on: {{ panel.expires_on.strftime('%Y-%m-%d') }}</p>
+            <div class="panel-actions">
+                <a href="{{ url_for('panel', panel_id=panel.id) }}">View Details</a>
+                <a href="{{ url_for('extend_panel', panel_id=panel.id) }}">Extend</a>
+            </div>
+        </div>
+        {% endfor %}
+        <a href="{{ url_for('create_panel') }}">Create New Panel</a>
+        <a href="{{ url_for('logout') }}">Logout</a>
+    </main>
+    <footer>
+        <p>&copy; 2023 My Kyta. All rights reserved.</p>
+    </footer>
+</body>
+</html>

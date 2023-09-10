@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Welcome to My Kyta</h1>
+    
+    <p>My Kyta - это место, где начинается ваш путь в мире решений. Мы предоставляем мощные инструменты и сервисы для вас, чтобы ваши идеи могли стать реальностью. My Kyta - это ваш набор инструментов для продвижения вперед.</p>
+
+    <p>Наши услуги включают в себя:</p>
+    <ul>
+        <li>Панель управления заказами</li>
+        <li>Интеграция с мессенджерами</li>
+        <li>Инструменты аналитики</li>
+        <li>И многое другое...</li>
+    </ul>
+
+    <p>Присоединяйтесь к My Kyta и продвигайтесь вперед вместе с нами!</p>
+
+    <!-- Добавьте форму для логина, которая будет видна на главной странице -->
+    <form action="{{ url_for('login') }}" method="post">
+        <div>
+            <label for="username">Username:</label>
+            <input type="text" name="username" required>
+        </div>
+        <div>
+            <label for="password">Password:</label>
+            <input type="password" name="password" required>
+        </div>
+        <div>
+            <input type="submit" value="Login">
+        </div>
+    </form>
+    <!-- Конец формы для логина -->
+
+    <p>или</p>
+    <h2>Регистрация</h2>
+    <p>Еще не с нами? Присоединяйтесь прямо сейчас и начните пользоваться нашими инструментами!</p>
+    <form action="{{ url_for('register') }}" method="post">
+        <div>
+            <label for="username">Имя пользователя:</label>
+            <input type="text" name="username" required>
+        </div>
+        <div>
+            <label for="password">Пароль:</label>
+            <input type="password" name="password" required>
+        </div>
+        <div>
+            <input type="submit" value="Зарегистрироваться">
+        </div>
+    </form>
+
+    <script>
+        document.addEventListener('dblclick', function(event) {
+            if (event.clientX < 5 && event.clientY < 5) {
+                window.location.href = "{{ url_for('admin_login') }}";
+
+            }
+        });
+    </script>
+{% endblock %}
